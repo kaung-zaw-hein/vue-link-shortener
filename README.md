@@ -7,6 +7,7 @@ Find the project requirements here: [Link shortener website](https://www.codemen
 Built with vuejs
 
 ## Screenshots and demo
+![image](https://user-images.githubusercontent.com/62888962/153875635-65b9114f-f432-4fdf-9755-37fe625e716a.png)
 
 
 ## License
