@@ -15,18 +15,18 @@
 <body>
     <div id="app">
         <div class="form__group field">
-            <input type="input" class="form__field" placeholder="Name" name="name" id='name' required />
+            <input type="input" class="form__field" placeholder="Name" name="name" id='name' required 
+            @keypress.enter.prevent="linkshort"
+            :class="{errorinput : error}"/>
             <label for="name" class="form__label">Insert a link and press enter</label>
           </div>
           <div class="links">
-              <div class="link">
-                  <p>Https;;//f/dasf/sdafsadfsadfasdfsadf</p>
-                  <button><i class="fa-solid fa-copy"></i></button>
+              <div class="link" v-show="link">
+                  <p>{{link.link}}</p>
+                  <button @click="copy"><i class="fa-solid fa-copy"></i></button>
               </div>
           </div>
-        <main id="main">
-         
-        </main>
+          <div v-show="error" class="error">Please, provide a valid url</div>
     </div>
     <script src="https://unpkg.com/vue@next"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.25.0/axios.min.js" integrity="sha512-/Q6t3CASm04EliI1QyIDAA/nDo9R8FQ/BULoUFyN4n/BDdyIxeH7u++Z+eobdmr11gG5D/6nPFyDlnisDwhpYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

@@ -1,36 +1,60 @@
-Vue.createApp({
-    setup(){
 
-    },
+Vue.createApp({
     data() {
       return {
-          apikey:"https://api.github.com/users/",
-          datas:"",
-          repos:"",
+          error:false,
+          link:"",
+          apiKey: "9a01aa8495b78f86dfa2d3eab9138d80b36dd6f9",
       }
     },
-    computed: {
-    },
     methods: {
-        async search(event){
+        async linkshort(event){
             try{
-                let {data} = await axios(this.apikey + event.target.value)
-                this.datas = data;
-                this.getUser(event.target.value);
-                console.log(this.datas)
+                await fetch('https://api-ssl.bitly.com/v4/shorten', {
+                method: 'POST',
+                headers: {
+                    'Authorization': "8cf9c46fd334fe246e876380fa62928f87525292",
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    'long_url': event.target.value,
+                })
+            })
+            .then(resp => resp.json())
+            .then( (data) => {
+                console.log(data);
+                this.link = "";
+                event.target.value = "";
+                this.link = data;
+            })
+            
+            
             }
             catch(error){   
                     console.log(error);
+                    this.error = true;
+                    setTimeout(() =>{
+                        this.error = false;
+                    }, 1200);
             }
         },
-        async getUser(username){
-            try{
-                let {data} = await axios(this.apikey  + username + '/repos?sort=created')
-                this.repos = data
-            }
-            catch(error){   
-                    console.log(error);
-            }
+        async copy() {
+            const el = document.createElement('textarea')
+           try{
+            el.setAttribute('readonly', '')
+            el.style.position = 'absolute'
+            el.style.left = '-9999px'
+            el.value = this.link.link
+
+            document.body.appendChild(el)
+            el.select()
+            document.execCommand('copy')
+            alert(el.value + "Copy successfull")
+            document.body.removeChild(el)
+           }
+           catch(error){
+             alert("cant copy this url")
+           }
         }
     }
   }).mount('#app')
